@@ -1,6 +1,6 @@
 {
   "name": "@chrctr/shoehorn",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A custom element that measures the size of text and adjusts its font size to fit the container.",
   "author": "Georgy Malanichev <georgy@chrctr.dev>",
   "license": "MIT",
@@ -20,7 +20,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "terser": "^5.43.1",
