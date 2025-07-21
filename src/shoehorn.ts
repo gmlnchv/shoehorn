@@ -46,7 +46,7 @@ export class Shoehorn extends HTMLElement {
         this._resizeObserver.observe(this);
 
         this._mutationObserver = new MutationObserver(this._resize);
-        this._mutationObserver.observe(this, { childList: true, characterData: true });
+        this._mutationObserver.observe(this, { childList: true, characterData: true, subtree: true  });
 
         this.fit({ sync: true });
     }
