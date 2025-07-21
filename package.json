@@ -1,0 +1,31 @@
+{
+  "name": "@chrctr/shoehorn",
+  "version": "0.0.1",
+  "description": "A custom element that measures the size of text and adjusts its font size to fit the container.",
+  "author": "Georgy Malanichev <georgy@chrctr.dev>",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/shoehorn.min.js",
+  "module": "./dist/shoehorn.esm.js",
+  "types": "./dist/shoehorn.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/shoehorn.d.ts",
+      "import": "./dist/shoehorn.esm.js",
+      "require": "./dist/shoehorn.min.js"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build"
+  },
+  "devDependencies": {
+    "terser": "^5.43.1",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4",
+    "vite-plugin-dts": "^4.5.4"
+  }
+}
