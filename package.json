@@ -20,7 +20,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "terser": "^5.43.1",
