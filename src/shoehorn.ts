@@ -20,6 +20,7 @@ export class Shoehorn extends HTMLElement {
             }
             .text {
               display: inline-block;
+              line-height: 1;
             }
           </style>
           <span class="text">
