@@ -3,7 +3,6 @@ export class Shoehorn extends HTMLElement {
     private _currentFontSize: number = 0;
     private _rafId: number = 0;
 
-    // We need a direct reference to the span that wraps the text
     private _textWrapper!: HTMLSpanElement;
     private _resizeObserver!: ResizeObserver;
     private _mutationObserver!: MutationObserver;
@@ -12,21 +11,19 @@ export class Shoehorn extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot!.innerHTML = `
-          <style>
-            :host {
-              display: block;
-              width: 100%;
-              height: 100%;
-            }
-            .text {
-              display: inline-block;
-              line-height: 1;
-            }
-          </style>
-          <span class="text">
-            <slot></slot>
-          </span>
-        `;
+      <style>
+        :host {
+          display: inline-block;
+        }
+        .text {
+          display: inline-block;
+          line-height: 1;
+        }
+      </style>
+      <span class="text">
+        <slot></slot>
+      </span>
+    `;
     }
 
     get mode(): 'width' | 'height' | 'box' {
@@ -39,15 +36,21 @@ export class Shoehorn extends HTMLElement {
     get maxSize(): number { return this._getFloatAttribute('max-size', 512); }
 
     connectedCallback(): void {
-        // Get the reference to the text wrapper when the component connects
         this._textWrapper = this.shadowRoot!.querySelector('.text')!;
         this._resize = this._resize.bind(this);
 
         this._resizeObserver = new ResizeObserver(this._resize);
-        this._resizeObserver.observe(this);
+
+        if (this.parentElement) {
+            this._resizeObserver.observe(this.parentElement);
+        }
 
         this._mutationObserver = new MutationObserver(this._resize);
-        this._mutationObserver.observe(this, { childList: true, characterData: true, subtree: true  });
+        this._mutationObserver.observe(this, {
+            childList: true,
+            characterData: true,
+            subtree: true
+        });
 
         this.fit({ sync: true });
     }
@@ -68,13 +71,15 @@ export class Shoehorn extends HTMLElement {
     unfreeze(): void { this._active = true; this.fit(); }
 
     private _resize(): void {
-        if (!this.isConnected) return;
+        if (!this.isConnected || !this.parentElement) return;
 
         const previousFontSize = this._currentFontSize;
         let newFontSize: number;
 
-        // Use the correct text wrapper for all measurements and styling
         const wrapper = this._textWrapper;
+
+        const availableWidth = this.parentElement.clientWidth;
+        const availableHeight = this.parentElement.clientHeight;
 
         switch (this.mode) {
             case 'box':
@@ -83,7 +88,7 @@ export class Shoehorn extends HTMLElement {
                 while (low <= high) {
                     let mid = Math.floor((low + high) / 2);
                     wrapper.style.fontSize = `${mid}px`;
-                    if (wrapper.scrollHeight > this.clientHeight) {
+                    if (wrapper.scrollHeight > availableHeight) {
                         high = mid - 1;
                     } else {
                         lastFit = mid;
@@ -95,7 +100,7 @@ export class Shoehorn extends HTMLElement {
 
             case 'height':
                 wrapper.style.whiteSpace = 'nowrap';
-                newFontSize = this.clientHeight;
+                newFontSize = availableHeight;
                 break;
 
             case 'width':
@@ -103,7 +108,7 @@ export class Shoehorn extends HTMLElement {
                 wrapper.style.whiteSpace = 'nowrap';
                 const fz = previousFontSize || this.minSize;
                 wrapper.style.fontSize = `${fz}px`;
-                const ratio = this.clientWidth / wrapper.scrollWidth;
+                const ratio = availableWidth / wrapper.scrollWidth;
                 newFontSize = fz * ratio;
                 break;
         }
