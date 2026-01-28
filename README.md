@@ -37,9 +37,14 @@ import '@chrctr/shoehorn';
 
 For environments without a build step (like CodePen, basic HTML pages, or some CMS platforms), you can use a CDN like JSDelivr.
 
+**ESM**
 ```html
-<!-- Add this to your HTML file -->
 <script type="module" src="https://cdn.jsdelivr.net/npm/@chrctr/shoehorn/dist/shoehorn.esm.js"></script>
+```
+
+**IIFE**
+```html
+<script src="https://cdn.jsdelivr.net/npm/@chrctr/shoehorn/dist/shoehorn.min.js"></script>
 ```
 
 ### Example
