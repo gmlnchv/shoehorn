@@ -39,7 +39,7 @@ For environments without a build step (like CodePen, basic HTML pages, or some C
 
 ```html
 <!-- Add this to your HTML file -->
-<script type="module" src="[https://cdn.jsdelivr.net/npm/@chrctr/shoehorn/dist/shoehorn.esm.js](https://cdn.jsdelivr.net/npm/@chrctr/shoehorn/dist/shoehorn.esm.js)"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@chrctr/shoehorn/dist/shoehorn.esm.js"></script>
 ```
 
 ### Example
