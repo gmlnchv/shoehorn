@@ -5,6 +5,8 @@
 
 A zero-dependency, high-performance Web Component that automatically adjusts the font size of text to perfectly fit its container. Ideal for headlines, banners, and digital signage (DOOH).
 
+This project is inspired by [Fitty](https://github.com/rikschennink/fitty), adapted as a modern Web Component with TypeScript support.
+
 ## Features
 
 - **Three Fitting Modes:** Fit text to width, height, or a 2D box.
