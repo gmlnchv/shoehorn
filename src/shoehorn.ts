@@ -2,6 +2,7 @@ export class Shoehorn extends HTMLElement {
     private _active: boolean = true;
     private _currentFontSize: number = 0;
     private _rafId: number = 0;
+    private _resizeDebounceId: number = 0;
 
     private _textWrapper!: HTMLSpanElement;
     private _resizeObserver!: ResizeObserver;
@@ -39,7 +40,10 @@ export class Shoehorn extends HTMLElement {
         this._textWrapper = this.shadowRoot!.querySelector('.text')!;
         this._resize = this._resize.bind(this);
 
-        this._resizeObserver = new ResizeObserver(this._resize);
+        this._resizeObserver = new ResizeObserver(() => {
+            clearTimeout(this._resizeDebounceId);
+            this._resizeDebounceId = window.setTimeout(this._resize, 50);
+        });
 
         if (this.parentElement) {
             this._resizeObserver.observe(this.parentElement);
@@ -114,6 +118,11 @@ export class Shoehorn extends HTMLElement {
         }
 
         newFontSize = Math.max(this.minSize, Math.min(newFontSize, this.maxSize));
+
+        if (Math.abs(newFontSize - previousFontSize) < 1) {
+            return;
+        }
+
         wrapper.style.fontSize = `${newFontSize}px`;
         this._currentFontSize = newFontSize;
 
