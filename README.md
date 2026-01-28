@@ -82,7 +82,9 @@ Scales the text to fill the full height of the container on a single line. The t
 </div>
 ```
 
-#### `mode="box"`
+#### `mode="box"
+
+The `resize` method allows manual triggering of the resize logic. This can be useful in scenarios where the parent element's size changes programmatically. It calls the existing `fit` method with the `sync` option set to `true`, ensuring that the resizing occurs immediately.
 Scales the text to be as large as possible without overflowing the container's width OR height, wrapping lines as needed. This is the most powerful mode for fitting text into a fixed-size box.
 
 ```html

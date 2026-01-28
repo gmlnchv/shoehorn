@@ -122,6 +122,10 @@ export class Shoehorn extends HTMLElement {
         }));
     }
 
+    resize(): void {
+        this.fit({ sync: true });
+    }
+
     private _getFloatAttribute(name: string, defaultValue: number): number {
         return this.hasAttribute(name) ? parseFloat(this.getAttribute(name)!) : defaultValue;
     }
